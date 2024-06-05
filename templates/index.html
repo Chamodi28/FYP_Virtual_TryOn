@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Try-on</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: row;
+            background-color: #000000; 
+            color: #ffffff ;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+
+        }
+
+        
+        #video-container {
+            width: 1048px  ;
+            height: 590px  ;
+            margin-left: 10px;
+            margin-top: 20px;
+
+        }
+
+        #video-stream {
+            width: 1048px ;
+            height: 590px ; 
+
+        }
+
+        #info-container {
+            width: 300px; 
+            padding: 10px;
+        }
+
+        #result-image {
+            width: 100px;
+            height: 100px;
+            margin-top: 20px;
+            font-size: 15px;
+
+        }
+
+        #file-input{
+            background-color: #4CAF50; 
+            color: white;
+            padding: 8px 8px;
+            text-align: center;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 15px;
+        }
+
+        #upload-button{
+            margin-top: 20px;
+            background-color: #4CAF50; 
+            color: white;
+            padding: 8px 8px;
+            text-align: center;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 15px;
+        }
+        
+
+
+        #bottom{
+            margin-top: 20px;
+        }
+        #file-input-bottom{
+            background-color: #4CAF50; 
+            color: white;
+            padding: 8px 8px;
+            text-align: center;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 15px;
+        }
+        #upload-button-bottom{
+            margin-top: 20px;
+            background-color: #4CAF50; 
+            color: white;
+            padding: 8px 8px;
+            text-align: center;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 15px;
+        }
+        #result-image-bottom {
+            width: 50px;
+            height: 150px;
+            margin-top: 20px;
+            font-size: 15px;
+        }
+
+
+
+    </style>
+</head>
+<body>
+<div id="video-container">
+    <img id="video-stream" src="{{ url_for('video_feed') }}" />
+
+</div>
+<div id="info-container">
+    <h1>Virtual Try-on 👚</h1>
+    <h2>Upload the cloth images</h2>
+    <h5>note: image size 768 resolution and tops only</h5>
+
+    <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
+        <input id="file-input" type="file" name="file" accept="image/*">
+        <input id="upload-button" type="button" value="Apply Cloth">
+    </form>
+
+    <h5 id = "bottom">note: upload croped bottom images</h5>
+
+    <form id="upload-form-bottom" action="/uploadBottom" method="post" enctype="multipart/form-data">
+        <input id="file-input-bottom" type="file" name="file" accept="image/*">
+        <input id="upload-button-bottom" type="button" value="Apply Bottoms">
+    </form>
+
+    <img id="result-image" src="" alt="Preview of Tops">
+    <img id="result-image-bottom" src="" alt="Preview of Bottoms">
+
+</div>
+
+
+
+<script>
+    document.getElementById("upload-button").addEventListener("click", function() {
+        var formData = new FormData(document.getElementById("upload-form"));
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/upload", true);
+        xhr.responseType = "text";  // Ensure response is treated as text
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                var resultImageElement = document.getElementById("result-image");
+                resultImageElement.src = "data:image/jpeg;base64," + xhr.responseText;
+            }
+        };
+        xhr.send(formData);
+    });
+</script>
+
+<script>
+    document.getElementById("upload-button-bottom").addEventListener("click", function() {
+        var formData = new FormData(document.getElementById("upload-form-bottom"));
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/uploadBottom", true);
+        xhr.responseType = "text";  // Ensure response is treated as text
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                var resultImageElement = document.getElementById("result-image-bottom");
+                resultImageElement.src = "data:image/jpeg;base64," + xhr.responseText;
+            }
+        };
+        xhr.send(formData);
+    });
+</script>
+
+
+
+</body>
+</html>
+
