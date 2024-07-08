@@ -3,9 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Virtual Try-on</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: row;
+            background-color: #000000; 
+            color: #ffffff ;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+
+        }
+
+        
+        #video-container {
+            width: 1048px  ;
+            height: 590px  ;
+            margin-left: 10px;
+            margin-top: 20px;
+
+        }
+
+        #video-stream {
+            width: 1048px ;
+            height: 590px ; 
+
+        }
+
+        #info-container {
+            width: 300px; 
+            padding: 10px;
+        }
+
+    
+
+    </style>
 </head>
 <body>
-    <h1>The MBSA Server is Running</h1>
+<div id="video-container">
+    <img id="video-stream" src="{{ url_for('video_feed') }}" />
+
+</div>
+<div id="info-container">
+    <h1>Virtual Try-on 👚</h1>
+    <h2>Upload the cloth images</h2>
+    <h5>note: image size 768 resolution and tops only</h5>
+
+    
+
+</div>
+
+
 </body>
 </html>
+
